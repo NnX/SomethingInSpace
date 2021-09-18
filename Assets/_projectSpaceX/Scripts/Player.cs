@@ -1,22 +1,26 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    private const int MaxPoolSize = 20;
+    private const float MissileSpeed = 5f;
+
     [SerializeField] private GameObject missilePrefab;
     [SerializeField] private Transform missileSocket;
     private float _spawnMissileDelay = 1f;
     private float _spawnMissileTimer;
-    private float _missileSpeed = 5f;
 
     private Touch _touch;
     private float _currentTouchX;
     private float _touchDelta;
     private Vector3 _playerPosition;
 
-
+    private List<GameObject> _missilePool;
     private void Awake()
     {
         _playerPosition = transform.position;
+        _missilePool = new List<GameObject>();
     }
 
     private void Update()
@@ -52,8 +56,25 @@ public class Player : MonoBehaviour
     {
         if (_spawnMissileTimer >= _spawnMissileDelay)
         {
-            var missile = Instantiate(missilePrefab, missileSocket.position, Quaternion.identity, missileSocket);
-            missile.transform.SetParent(transform.parent);
+            for (var i = 0; i < _missilePool.Count; i++)
+            {
+                var o = _missilePool[i];
+                if (!o.activeInHierarchy)
+                {
+                    o.SetActive(true);
+                    o.transform.position = missileSocket.position; 
+                    _spawnMissileTimer = 0;
+                    return;
+                }
+            }
+            
+            if (_missilePool.Count < MaxPoolSize)
+            {
+                var missile = Instantiate(missilePrefab, missileSocket.position, Quaternion.identity, missileSocket);
+                missile.transform.SetParent(transform.parent);
+                _missilePool.Add(missile);
+            }
+
             _spawnMissileTimer = 0;
         }
     }

@@ -12,7 +12,7 @@ public class Enemy : MonoBehaviour
             var blowFX = Instantiate(blowFx, transform1.position, Quaternion.identity, transform1);
             blowFX.transform.SetParent(transform.parent);
             gameObject.SetActive(false);
-            Destroy(other.gameObject);
+            other.gameObject.SetActive(false);
             Destroy(gameObject);
         }
     }
