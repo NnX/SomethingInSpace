@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
@@ -6,10 +5,11 @@ using Random = UnityEngine.Random;
 
 public class GameKeeper : MonoBehaviour
 {
-
     private const int MaxEnemyWidth = 64;
     private const int MaxEnemyHeight = 44;
     private const int PaddingTop = 22;
+    private const float StartMoveSpeed = 0.4f;
+    private const float MoveSpeedDelta = 0.1f;
     [SerializeField] private int enemyColumnsAmount;
     [SerializeField] private int enemyRowsAmount;
     [SerializeField] private float spaceBetweenEnemies;
@@ -24,6 +24,7 @@ public class GameKeeper : MonoBehaviour
     private float _maxRightPosition;
     private float _centerPositionX;
     private bool _isMoveRight;
+    private float _moveSpeed = 0.4f;
 
     private void Awake()
     {
@@ -36,7 +37,7 @@ public class GameKeeper : MonoBehaviour
 
     private void Start()
     {
-        var columnPosition = new Vector3(0,(_topMaxPosition * 2) - PaddingTop,0);
+        var columnPosition = new Vector3(0, (_topMaxPosition * 2) - PaddingTop * 7, 0);
         var rowLayoutPosition = new Vector3(0, _topMaxPosition * 2, 0);
         for (int i = 0; i < enemyRowsAmount; i++)
         {
@@ -46,7 +47,8 @@ public class GameKeeper : MonoBehaviour
             {
                 var enemy = Instantiate(enemies[randomEnemyIndex], columnPosition, quaternion.identity, startTransform);
                 enemy.gameObject.transform.SetParent(rowLayout.transform);
-                columnPosition.x = columnPosition.x + ((RectTransform)enemy.transform).sizeDelta.x + spaceBetweenEnemies;
+                columnPosition.x = columnPosition.x + ((RectTransform)enemy.transform).sizeDelta.x +
+                                   spaceBetweenEnemies;
             }
 
             var center = Screen.width / 2 - columnPosition.x / 2;
@@ -60,19 +62,18 @@ public class GameKeeper : MonoBehaviour
 
     private void FixedUpdate()
     {
-
         foreach (var enemyRow in _enemyRowsList)
         {
             var direction = enemyRow.transform.position;
             if (_isMoveRight)
             {
-                direction.x += 2;
+                direction.x += _moveSpeed;
             }
             else
             {
-                direction.x -= 2;
-                
+                direction.x -= _moveSpeed;
             }
+
             enemyRow.transform.position = direction;
         }
     }

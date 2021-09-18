@@ -1,18 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private GameObject blowFx;
+    
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (other.CompareTag("Missle"))
+        {
+            var transform1 = transform;
+            var blowFX = Instantiate(blowFx, transform1.position, Quaternion.identity, transform1);
+            blowFX.transform.SetParent(transform.parent);
+            gameObject.SetActive(false);
+            Destroy(other.gameObject);
+            Destroy(gameObject);
+        }
     }
 }
