@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3213140741918081853
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3213140741918081855}
+  - component: {fileID: 3213140741918081854}
+  m_Layer: 0
+  m_Name: GameKeeper
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3213140741918081855
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3213140741918081853}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3213140741918081854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3213140741918081853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 981d6134e8e867b40a1eb42d74b7de5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerLiveAmount: 3
+  enemyColumnsAmount: 10
+  enemyRowsAmount: 5
+  spaceBetweenEnemies: 15
+  spaceBetweenRows: 25
+  enemies:
+  - {fileID: 905604584060850383, guid: 58b3d69b9ca28ab47b3941ce7da96b5a, type: 3}
+  - {fileID: 4196661596062296154, guid: cfcc0ab3ec17ee94f85bec88e6b3bf20, type: 3}
+  - {fileID: 4547394627508803781, guid: cba6383daabb65844b813ccaa81d5c4d, type: 3}
+  - {fileID: 4547394627508803781, guid: 4d4da31d44a17ef49a2185e49128228f, type: 3}
+  enemyRowPrefab: {fileID: 6286138628219414992, guid: 16986598557fada448f7edd2de8a2072, type: 3}
+  startTransform: {fileID: 0}
+  scoreText: {fileID: 0}
+  hiScoreText: {fileID: 0}
+  livesText: {fileID: 0}
+  player: {fileID: 0}
+  playerMoveSpeed: 0.4

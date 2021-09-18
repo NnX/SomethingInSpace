@@ -11,7 +11,7 @@ public class GameKeeper : MonoBehaviour
     private const int MaxEnemyWidth = 64;
     private const int MaxEnemyHeight = 44;
     private const int PaddingTop = 154;
-    private const float EnemyDownShift = 10f;
+    private const float EnemyDownShift = 15f;
     private const float EnemyRowMoveStartSpeed = 0.4f;
     private const float EnemyRowIncreaseSpeed = 0.2f;
     [SerializeField] private int playerLiveAmount;
@@ -50,7 +50,6 @@ public class GameKeeper : MonoBehaviour
 
     private void Start()
     {
-        _saveKeeper.LoadHiScore();
         InitEnemies();
         _currentLivesAmount = playerLiveAmount;
         UpdateLivesCounter();
@@ -71,12 +70,7 @@ public class GameKeeper : MonoBehaviour
         UpdateLivesCounter();
         if (_currentLivesAmount == 0)
         {
-            if (_currentScore > _hiScoreAmount)
-            {
-                _hiScoreAmount = _currentScore;
-                _saveKeeper.SaveHiScore(_hiScoreAmount);
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            }
+            GameOver();
         }
     }
 
@@ -112,7 +106,7 @@ public class GameKeeper : MonoBehaviour
     private void FixedUpdate()
     {
         DetectRowMoveDirectionChange();
-        MoveEnemyRowsOnXAxis();
+        MoveEnemyRowsOnAxisX();
     }
 
     private void DetectRowMoveDirectionChange()
@@ -131,17 +125,36 @@ public class GameKeeper : MonoBehaviour
 
     private void DownShiftEnemyRows()
     {
+        var lowestY = _screenHeight;
         foreach (var enemyRow in _enemyRowsList)
         {
             var position = enemyRow.transform.position;
             position.y -= EnemyDownShift;
             enemyRow.transform.position = position;
+            if (position.y - (_enemyRowsList.Count * (MaxEnemyHeight + spaceBetweenRows) + PaddingTop) < lowestY)
+            {
+                lowestY = position.y - (_enemyRowsList.Count * (MaxEnemyHeight + spaceBetweenRows) + PaddingTop);
+            }
         }
         
-        // TODO if last row has enemies and row position.y <= player position y = game over
+        if (lowestY < 0)
+        {
+            GameOver();
+        }
     }
 
-    private void MoveEnemyRowsOnXAxis()
+    private void GameOver()
+    {
+        if (_currentScore > _hiScoreAmount)
+        {
+            _hiScoreAmount = _currentScore;
+            _saveKeeper.UpdateHiScore(_hiScoreAmount);
+            _saveKeeper.SaveParameters();
+        }
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    private void MoveEnemyRowsOnAxisX()
     {
         foreach (var enemyRow in _enemyRowsList)
         {
