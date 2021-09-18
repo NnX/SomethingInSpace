@@ -2,21 +2,46 @@ using UnityEngine;
 
 public class Missile : MonoBehaviour
 {
+    private const float PlayerMissileSpeed = 180f;
+    private const float EnemyMissileSpeed = 120f;
     [SerializeField] private Rigidbody2D rigidBody;
     private float _speed = 180f;
     private float _maxPositionX;
 
-    private void Awake()
+    private Vector2 _moveDirection;
+    private bool _isEnemyMissile;
+    
+    public void SetEnemyMissileParams()
     {
-        _maxPositionX = Screen.height;
+        _moveDirection = Vector2.down;
+        _speed = EnemyMissileSpeed;
+        _isEnemyMissile = true;
     }
 
+    private void SetPlayerMissileParams()
+    {
+        _maxPositionX = Screen.height;
+        _moveDirection = transform.up;
+    }
+    
+    private void Awake()
+    {
+        SetPlayerMissileParams();
+    }
+    
     private void FixedUpdate()
     {
-        rigidBody.velocity = transform.up * _speed;
-        if (transform.position.y > _maxPositionX)
+        rigidBody.velocity = _moveDirection * _speed;
+        if (transform.position.y > _maxPositionX || transform.position.y < 0)
         {
-            gameObject.SetActive(false);
+            if (_isEnemyMissile)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                gameObject.SetActive(false);    
+            }
         }
     }
 }

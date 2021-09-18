@@ -4,7 +4,6 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private const int MaxPoolSize = 20;
-    private const float MissileSpeed = 5f;
 
     [SerializeField] private GameObject missilePrefab;
     [SerializeField] private Transform missileSocket;

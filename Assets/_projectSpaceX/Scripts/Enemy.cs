@@ -3,6 +3,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private GameObject blowFx;
+    [SerializeField] private Transform missileSocket;
     
     private void OnTriggerEnter2D(Collider2D other)
     {
