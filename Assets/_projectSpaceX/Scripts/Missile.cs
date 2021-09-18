@@ -13,7 +13,7 @@ public class Missile : MonoBehaviour
     
     public void SetEnemyMissileParams()
     {
-        _moveDirection = Vector2.down;
+        _moveDirection = Vector2.down;;
         _speed = EnemyMissileSpeed;
         _isEnemyMissile = true;
     }
@@ -22,6 +22,7 @@ public class Missile : MonoBehaviour
     {
         _maxPositionX = Screen.height;
         _moveDirection = transform.up;
+        _speed = PlayerMissileSpeed;
     }
     
     private void Awake()
@@ -38,10 +39,8 @@ public class Missile : MonoBehaviour
             {
                 Destroy(gameObject);
             }
-            else
-            {
-                gameObject.SetActive(false);    
-            }
+            
+            gameObject.SetActive(false);
         }
     }
 }

@@ -4,7 +4,7 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private GameObject blowFx;
     [SerializeField] private Transform missileSocket;
-    
+    [SerializeField] private GameObject missilePrefab;
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Missle"))
@@ -16,5 +16,12 @@ public class Enemy : MonoBehaviour
             other.gameObject.SetActive(false);
             Destroy(gameObject);
         }
+    }
+
+    public void Shoot()
+    {
+        var missile = Instantiate(missilePrefab, missileSocket.position, Quaternion.identity, missileSocket);
+        missile.GetComponent<Missile>().SetEnemyMissileParams();
+        missile.transform.SetParent(transform.parent.transform.parent);
     }
 }

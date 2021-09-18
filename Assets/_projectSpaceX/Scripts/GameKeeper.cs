@@ -7,9 +7,7 @@ public class GameKeeper : MonoBehaviour
 {
     private const int MaxEnemyWidth = 64;
     private const int MaxEnemyHeight = 44;
-    private const int PaddingTop = 22;
-    private const float StartMoveSpeed = 0.4f;
-    private const float MoveSpeedDelta = 0.1f;
+    private const int PaddingTop = 154;
     private const float EnemyDownShift = 10f;
     [SerializeField] private int enemyColumnsAmount;
     [SerializeField] private int enemyRowsAmount;
@@ -20,27 +18,24 @@ public class GameKeeper : MonoBehaviour
     [SerializeField] private RectTransform startTransform;
 
     private List<GameObject> _enemyRowsList;
-    private float _topMaxPosition;
-    private float _maxLeftPosition;
     private float _centerPositionX;
     private bool _isMoveRight = true;
     private float _moveSpeed = 0.4f;
     private float _screenWidth;
+    private float _screenHeight;
     private float _enemyRowWidth;
 
     private void Awake()
     {
         _enemyRowsList = new List<GameObject>();
-        var rect = startTransform.rect;
-        _topMaxPosition = rect.yMax;
-        _maxLeftPosition = 0;
         _screenWidth = Screen.width;
+        _screenHeight = Screen.height;
     }
 
     private void Start()
     {
-        var columnPosition = new Vector3(0, (_topMaxPosition * 2) - PaddingTop * 7, 0);
-        var rowLayoutPosition = new Vector3(0, _topMaxPosition * 2, 0);
+        var columnPosition = new Vector3(0, _screenHeight - PaddingTop, 0);
+        var rowLayoutPosition = new Vector3(0, _screenHeight, 0);
         for (int i = 0; i < enemyRowsAmount; i++)
         {
             var rowLayout = Instantiate(enemyRowPrefab, rowLayoutPosition, Quaternion.identity, startTransform);
@@ -64,7 +59,6 @@ public class GameKeeper : MonoBehaviour
     private void FixedUpdate()
     {
         DetectRowMoveDirectionChange();
-
         MoveEnemyRowsOnXAxis();
     }
 
@@ -109,6 +103,12 @@ public class GameKeeper : MonoBehaviour
             }
 
             enemyRow.transform.position = direction;
+        }
+        _enemyRowsList.RemoveAll((x) => x.transform.childCount == 0);
+        
+        if (_enemyRowsList.Count > 0)
+        {
+            _enemyRowsList[_enemyRowsList.Count  - 1].GetComponent<EnemyRow>().SetLastRow(true);    
         }
     }
 }

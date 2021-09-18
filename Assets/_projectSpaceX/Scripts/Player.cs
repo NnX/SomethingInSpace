@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,9 +17,13 @@ public class Player : MonoBehaviour
     private Vector3 _playerPosition;
 
     private List<GameObject> _missilePool;
+    private float _playerMoveSpeed = 15f;
+
     private void Awake()
     {
+        
         _playerPosition = transform.position;
+        _currentTouchX = _playerPosition.x;
         _missilePool = new List<GameObject>();
     }
 
@@ -34,20 +39,12 @@ public class Player : MonoBehaviour
         if (Input.touchCount > 0)
         {
             _touch = Input.GetTouch(0);
-            if (_touch.phase == TouchPhase.Began)
-            {
-                _currentTouchX = _touch.position.x;
-            } 
             if (_touch.phase == TouchPhase.Moved)
             {
-                _touchDelta  = _touch.position.x - _currentTouchX;
-            }
-            if (_touch.phase == TouchPhase.Ended || _touch.phase == TouchPhase.Canceled)
-            {
-                _touchDelta = 0;
+                _currentTouchX = _touch.position.x;
             }
         }
-        _playerPosition.x = Mathf.Lerp(_playerPosition.x, _playerPosition.x + _touchDelta, Time.deltaTime);
+        _playerPosition.x = Mathf.Lerp(_playerPosition.x,  _currentTouchX, Time.deltaTime * _playerMoveSpeed);
         transform.position = _playerPosition;
     }
 
@@ -75,6 +72,16 @@ public class Player : MonoBehaviour
             }
 
             _spawnMissileTimer = 0;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Missle"))
+        {
+            Debug.LogWarning("PlayerDamaged");
+            Destroy(other.gameObject);
+            // TODO deal damage
         }
     }
 }
