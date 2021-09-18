@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public event Action OnDamageReceived;
     private const int MaxPoolSize = 20;
 
     [SerializeField] private GameObject missilePrefab;
@@ -81,6 +82,7 @@ public class Player : MonoBehaviour
         {
             Debug.LogWarning("PlayerDamaged");
             Destroy(other.gameObject);
+            OnDamageReceived.Invoke();
             // TODO deal damage
         }
     }

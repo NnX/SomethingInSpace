@@ -157,8 +157,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 156, y: 0}
-  m_SizeDelta: {x: 150, y: 63}
+  m_AnchoredPosition: {x: 9.0948, y: -48}
+  m_SizeDelta: {x: 186.19, y: 63}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &362184150
 MonoBehaviour:
@@ -237,7 +237,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 623, y: -37}
+  m_AnchoredPosition: {x: 623, y: -8}
   m_SizeDelta: {x: 156.4463, y: 63}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &454220921
@@ -399,7 +399,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 155.71033, y: 0}
+  m_AnchoredPosition: {x: 32, y: -45}
   m_SizeDelta: {x: 150, y: 63}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &569973301
@@ -479,8 +479,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 914, y: -37}
-  m_SizeDelta: {x: 156.4463, y: 63}
+  m_AnchoredPosition: {x: 939.2981, y: 15}
+  m_SizeDelta: {x: 204.3796, y: 108.2704}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &717125826
 MonoBehaviour:
@@ -515,7 +515,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Score:'
+  m_Text: 'Hi stcore:'
 --- !u!222 &717125827
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -553,6 +553,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 981d6134e8e867b40a1eb42d74b7de5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerLiveAmount: 3
   enemyColumnsAmount: 10
   enemyRowsAmount: 5
   spaceBetweenEnemies: 15
@@ -564,6 +565,11 @@ MonoBehaviour:
   - {fileID: 4547394627508803781, guid: 4d4da31d44a17ef49a2185e49128228f, type: 3}
   enemyRowPrefab: {fileID: 6286138628219414992, guid: 16986598557fada448f7edd2de8a2072, type: 3}
   startTransform: {fileID: 2105849782}
+  scoreText: {fileID: 569973301}
+  hiScoreText: {fileID: 362184150}
+  livesText: {fileID: 1031325511}
+  player: {fileID: 1500386373}
+  playerMoveSpeed: 0.4
 --- !u!4 &765991407
 Transform:
   m_ObjectHideFlags: 0
@@ -612,7 +618,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 130.7, y: 0}
+  m_AnchoredPosition: {x: 19, y: -41}
   m_SizeDelta: {x: 100, y: 63}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1031325511
@@ -692,7 +698,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 13, y: -37}
+  m_AnchoredPosition: {x: 13, y: -5}
   m_SizeDelta: {x: 156.4463, y: 63}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1034238027
@@ -1107,6 +1113,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1500386373 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3162290185395009489, guid: 335f4a56578d1554da95d2f6e551b264, type: 3}
+  m_PrefabInstance: {fileID: 1323973833}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8366e429021bf9e4c818d19757ce610a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1525319801
 GameObject:
   m_ObjectHideFlags: 0
