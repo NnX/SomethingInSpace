@@ -63,8 +63,8 @@ public class GameKeeper : MonoBehaviour
         _currentScore = 0;
         _enemyRowMoveSpeed = EnemyRowMoveStartSpeed;
         gameSettingsButton.onClick.AddListener(()=> gameSettings.gameObject.SetActive(true));
-    }
-
+    } 
+    
     private void UpdateLivesCounter()
     {
         livesText.text = _currentLivesAmount.ToString(CultureInfo.InvariantCulture);
