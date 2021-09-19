@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3162290185395009495}
   - component: {fileID: 3162290185395009492}
   - component: {fileID: 3162290185395009493}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -149,7 +149,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3162290185790831053}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: missleSocket
   m_TagString: Untagged
   m_Icon: {fileID: 0}

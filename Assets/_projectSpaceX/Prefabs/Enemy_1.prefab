@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3645793223097022131}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: MissileSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49,7 +49,7 @@ GameObject:
   - component: {fileID: 8433526087460464215}
   - component: {fileID: 8433526087460464218}
   - component: {fileID: 8433526087460464217}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Enemy_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

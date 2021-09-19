@@ -27,7 +27,9 @@ public class GameKeeper : MonoBehaviour
     [SerializeField] private Text livesText;
     [SerializeField] private Player player;
     [SerializeField] private float playerMoveSpeed = 0.4f;
-
+    [SerializeField] private GameSettings gameSettings;
+    [SerializeField] private Button gameSettingsButton;
+    
     private List<GameObject> _enemyRowsList;
     private float _centerPositionX;
     private bool _isMoveRight = true;
@@ -39,6 +41,7 @@ public class GameKeeper : MonoBehaviour
     private int _hiScoreAmount;
     private float _enemyRowMoveSpeed;
     private SaveKeeper _saveKeeper;
+    
 
     private void Awake()
     {
@@ -54,9 +57,12 @@ public class GameKeeper : MonoBehaviour
         _currentLivesAmount = playerLiveAmount;
         UpdateLivesCounter();
         player.OnDamageReceived += DealDamage;
+        gameSettings.OnPlayerColorChanged += SavePlayerColor;
         hiScoreText.text = _saveKeeper.GetHiScore().ToString();
+        player.GetComponent<Image>().color = _saveKeeper.GetPlayerColor();
         _currentScore = 0;
         _enemyRowMoveSpeed = EnemyRowMoveStartSpeed;
+        gameSettingsButton.onClick.AddListener(()=> gameSettings.gameObject.SetActive(true));
     }
 
     private void UpdateLivesCounter()
@@ -64,6 +70,11 @@ public class GameKeeper : MonoBehaviour
         livesText.text = _currentLivesAmount.ToString(CultureInfo.InvariantCulture);
     }
 
+    public void SavePlayerColor(Color color)
+    {
+        _saveKeeper.UpdatePlayerColor(color);    
+    }
+    
     private void DealDamage()
     {
         _currentLivesAmount--;

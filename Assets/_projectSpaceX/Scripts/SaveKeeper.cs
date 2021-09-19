@@ -18,16 +18,32 @@ public class SaveKeeper
     public void UpdateHiScore(int score)
     {
         _saveParameters.hiScore = score;
+        SaveParameters();
     }
 
     public void UpdatePlayerColor(Color newColor)
     {
-        _saveParameters.playerColor = newColor;
+
+        ColorValues colorValues = new ColorValues
+        {
+            r = newColor.r,
+            g = newColor.g,
+            b = newColor.b, 
+            a = newColor.a
+        };
+        _saveParameters.playerColor = colorValues;
+        SaveParameters();
     }
 
     public int GetHiScore()
     {
         return _saveParameters.hiScore;
+    }
+    public Color GetPlayerColor()
+    {
+        var savedColor = _saveParameters.playerColor;
+        var playerColor = new Color(savedColor.r, savedColor.g, savedColor.b, savedColor.a);
+        return playerColor;
     }
 
     public SaveDataParameters GetSaveParams()
@@ -44,7 +60,14 @@ public class SaveKeeper
             if (fileStream.Length == 0)
             {
                 _saveParameters = new SaveDataParameters();
-                _saveParameters.playerColor = Color.green;
+                ColorValues values = new ColorValues
+                {
+                    r = Color.green.r,
+                    g = Color.green.g,
+                    b = Color.green.b, 
+                    a = Color.green.a
+                };
+                _saveParameters.playerColor = values;
                 Debug.Log("Created new save");
             }
             else
@@ -106,6 +129,15 @@ public class SaveKeeper
     public class SaveDataParameters
     {
         public int hiScore;
-        public Color playerColor;
+        public ColorValues playerColor;
+    }
+
+    [Serializable]
+    public class ColorValues
+    {
+        public float r;
+        public float g;
+        public float b;
+        public float a;
     }
 }
