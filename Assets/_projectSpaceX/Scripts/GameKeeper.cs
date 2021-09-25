@@ -42,7 +42,6 @@ public class GameKeeper : MonoBehaviour
     private float _enemyRowMoveSpeed;
     private SaveKeeper _saveKeeper;
     
-
     private void Awake()
     {
         _enemyRowsList = new List<GameObject>();

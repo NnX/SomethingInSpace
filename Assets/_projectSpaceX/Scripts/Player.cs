@@ -78,12 +78,12 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Missle"))
+        var missile = other.GetComponent<Missile>();
+        if (missile != null)
         {
             Debug.LogWarning("PlayerDamaged");
             Destroy(other.gameObject);
-            OnDamageReceived.Invoke();
-            // TODO deal damage
+            OnDamageReceived?.Invoke();
         }
     }
 }
