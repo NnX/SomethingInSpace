@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public event Action OnDamageReceived;
-    private const int MaxPoolSize = 20;
+    private const int StartPoolSize = 6;
 
     [SerializeField] private GameObject missilePrefab;
     [SerializeField] private Transform missileSocket;
@@ -22,10 +22,17 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        
         _playerPosition = transform.position;
         _currentTouchX = _playerPosition.x;
         _missilePool = new List<GameObject>();
+    }
+
+    private void Start()
+    {
+        for (int i = 0; i < StartPoolSize; i++)
+        {
+            InitNewMissile(false);
+        }
     }
 
     private void Update()
@@ -59,21 +66,23 @@ public class Player : MonoBehaviour
                 if (!o.activeInHierarchy)
                 {
                     o.SetActive(true);
-                    o.transform.position = missileSocket.position; 
+                    o.transform.position = missileSocket.position;
                     _spawnMissileTimer = 0;
                     return;
                 }
             }
             
-            if (_missilePool.Count < MaxPoolSize)
-            {
-                var missile = Instantiate(missilePrefab, missileSocket.position, Quaternion.identity, missileSocket);
-                missile.transform.SetParent(transform.parent);
-                _missilePool.Add(missile);
-            }
-
+            InitNewMissile(true);
             _spawnMissileTimer = 0;
         }
+    }
+
+    private void InitNewMissile(bool isActive)
+    {
+        var missile = Instantiate(missilePrefab, missileSocket.position, Quaternion.identity, missileSocket);
+        missile.transform.SetParent(transform.parent);
+        missile.gameObject.SetActive(isActive);
+        _missilePool.Add(missile);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -81,7 +90,6 @@ public class Player : MonoBehaviour
         var missile = other.GetComponent<Missile>();
         if (missile != null)
         {
-            Debug.LogWarning("PlayerDamaged");
             Destroy(other.gameObject);
             OnDamageReceived?.Invoke();
         }
