@@ -1,15 +1,18 @@
 using System.Collections;
 using UnityEngine;
 
-public class ExplodeFx : MonoBehaviour
+namespace _projectSpaceX.Scripts
 {
-    void Start()
+    public class ExplodeFx : MonoBehaviour
     {
-        StartCoroutine(ClearExplosion());
-    }
-    private IEnumerator ClearExplosion()
-    {
-        yield return new WaitForSeconds(0.5f);
-        Destroy(gameObject);
+        private void Start()
+        {
+            StartCoroutine(ClearExplosion());
+        }
+        private IEnumerator ClearExplosion()
+        {
+            yield return new WaitForSeconds(0.5f);
+            Destroy(gameObject);
+        }
     }
 }

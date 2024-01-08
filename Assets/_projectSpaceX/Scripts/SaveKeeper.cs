@@ -3,141 +3,147 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
-public class SaveKeeper
+namespace _projectSpaceX.Scripts
 {
-    private SaveDataParameters _saveParameters;
-    private readonly string _savePath;
-    private bool _isRunningSaveProcess;
-
-    public SaveKeeper()
+    public class SaveKeeper
     {
-        _savePath = Application.persistentDataPath + "/save";
-        LoadSavedParameters();
-    }
+        private SaveDataParameters _saveParameters;
+        private readonly string _savePath;
+        private bool _isRunningSaveProcess;
 
-    public void UpdateHiScore(int score)
-    {
-        _saveParameters.hiScore = score;
-        SaveParameters();
-    }
-
-    public void UpdatePlayerColor(Color newColor)
-    {
-
-        ColorValues colorValues = new ColorValues
+        public SaveKeeper()
         {
-            r = newColor.r,
-            g = newColor.g,
-            b = newColor.b, 
-            a = newColor.a
-        };
-        _saveParameters.playerColor = colorValues;
-        SaveParameters();
-    }
+            _savePath = Application.persistentDataPath + "/save";
+            LoadSavedParameters();
+        }
 
-    public int GetHiScore()
-    {
-        return _saveParameters.hiScore;
-    }
-    public Color GetPlayerColor()
-    {
-        var savedColor = _saveParameters.playerColor;
-        var playerColor = new Color(savedColor.r, savedColor.g, savedColor.b, savedColor.a);
-        return playerColor;
-    }
-
-    public SaveDataParameters GetSaveParams()
-    {
-        return _saveParameters;
-    }
-
-    public void LoadSavedParameters()
-    {
-        FileStream fileStream = new FileStream(_savePath, FileMode.OpenOrCreate);
-
-        try
+        public void UpdateHiScore(int score)
         {
-            if (fileStream.Length == 0)
+            _saveParameters.hiScore = score;
+            SaveParameters();
+        }
+
+        public void UpdatePlayerColor(Color newColor)
+        {
+
+            ColorValues colorValues = new ColorValues
             {
-                _saveParameters = new SaveDataParameters();
-                ColorValues values = new ColorValues
+                r = newColor.r,
+                g = newColor.g,
+                b = newColor.b, 
+                a = newColor.a
+            };
+            _saveParameters.playerColor = colorValues;
+            SaveParameters();
+        }
+
+        public int GetHiScore()
+        {
+            return _saveParameters.hiScore;
+        }
+        public Color GetPlayerColor()
+        {
+            var savedColor = _saveParameters.playerColor;
+            var playerColor = new Color(savedColor.r, savedColor.g, savedColor.b, savedColor.a);
+            return playerColor;
+        }
+
+        public SaveDataParameters GetSaveParams()
+        {
+            return _saveParameters;
+        }
+
+        public void LoadSavedParameters()
+        {
+            FileStream fileStream = new FileStream(_savePath, FileMode.OpenOrCreate);
+
+            try
+            {
+                if (fileStream.Length == 0)
                 {
-                    r = Color.green.r,
-                    g = Color.green.g,
-                    b = Color.green.b, 
-                    a = Color.green.a
-                };
-                _saveParameters.playerColor = values;
-                Debug.Log("Created new save");
+                    _saveParameters = new SaveDataParameters();
+                    ColorValues values = new ColorValues
+                    {
+                        r = Color.green.r,
+                        g = Color.green.g,
+                        b = Color.green.b, 
+                        a = Color.green.a
+                    };
+                    _saveParameters.playerColor = values;
+                    Debug.Log("Created new save");
+                }
+                else
+                {
+                    BinaryFormatter formatter = new BinaryFormatter();
+                    _saveParameters = (SaveDataParameters)formatter.Deserialize(fileStream);
+                    Debug.Log("Loaded hi score");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                BinaryFormatter formatter = new BinaryFormatter();
-                _saveParameters = (SaveDataParameters)formatter.Deserialize(fileStream);
-                Debug.Log("Loaded hi score");
+                Debug.LogError($"Error during Loading = {ex}");
+            }
+            finally
+            {
+                fileStream.Close();
             }
         }
-        catch (Exception ex)
-        {
-            Debug.LogError($"Error during Loading = {ex}");
-        }
-        finally
-        {
-            fileStream.Close();
-        }
-    }
 
-    public void SaveParameters()
-    {
-        if (_isRunningSaveProcess)
+        public void SaveParameters()
         {
-            Debug.Log("Saving in progress");
-            return;
-        }
-
-        _isRunningSaveProcess = true;
-        FileStream file = null;
-
-        try
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            file = File.Create(_savePath);
-
-            if (_saveParameters != null)
+            if (_isRunningSaveProcess)
             {
-                SaveDataParameters newSave = new SaveDataParameters
+                Debug.Log("Saving in progress");
+                return;
+            }
+
+            _isRunningSaveProcess = true;
+            FileStream file = null;
+
+            try
+            {
+                var formatter = new BinaryFormatter();
+                file = File.Create(_savePath);
+
+                if (_saveParameters == null)
+                {
+                    return;
+                }
+                
+                var newSave = new SaveDataParameters
                 {
                     hiScore = _saveParameters.hiScore,
                     playerColor = _saveParameters.playerColor
                 };
                 formatter.Serialize(file, newSave);
+                
+            }
+            catch (Exception)
+            {
+                Debug.LogError("Error during saving");
+            }
+            finally
+            {
+                file?.Close();
+                _isRunningSaveProcess = false;
+                Debug.Log($"Saved data box, path = {_savePath}");
             }
         }
-        catch (Exception)
-        {
-            Debug.LogError("Error during saving");
-        }
-        finally
-        {
-            file?.Close();
-            _isRunningSaveProcess = false;
-            Debug.Log($"Saved data box, path = {_savePath}");
-        }
-    }
 
-    [Serializable]
-    public class SaveDataParameters
-    {
-        public int hiScore;
-        public ColorValues playerColor;
-    }
+        [Serializable]
+        public class SaveDataParameters
+        {
+            public int hiScore;
+            public ColorValues playerColor;
+        }
 
-    [Serializable]
-    public class ColorValues
-    {
-        public float r;
-        public float g;
-        public float b;
-        public float a;
+        [Serializable]
+        public class ColorValues
+        {
+            public float r;
+            public float g;
+            public float b;
+            public float a;
+        }
     }
 }

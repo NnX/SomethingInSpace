@@ -1,34 +1,41 @@
-using _projectSpaceX.Scripts;
 using UnityEngine;
 
-public class EnemyRow : MonoBehaviour
+namespace _projectSpaceX.Scripts
 {
-    private bool _isLastRow;
-    private float _spawnMissileDelay = 3f;
-    private float _spawnMissileTimer;
-    private int _childCount;
-    void Update()
+    public class EnemyRow : MonoBehaviour
     {
-        _spawnMissileTimer += Time.deltaTime;
-        if (_spawnMissileTimer > _spawnMissileDelay & _isLastRow)
+        private const float SpawnMissileDelay = 3f;
+        
+        private bool _isLastRow;
+        private float _spawnMissileTimer;
+        private int _childCount;
+
+        private void Update()
         {
-            _childCount = transform.childCount;
-            if (_childCount > 0)
+            _spawnMissileTimer += Time.deltaTime;
+            if (_spawnMissileTimer > SpawnMissileDelay & _isLastRow)
             {
-                MakeRandomEnemyShot();    
+                _childCount = transform.childCount;
+                if (_childCount > 0)
+                {
+                    MakeRandomEnemyShot();    
+                }
             }
         }
-    }
 
-    private void MakeRandomEnemyShot()
-    {
-        var randomIndex = Random.Range(0, _childCount);
-        transform.GetChild(randomIndex).GetComponent<Enemy>()?.Shoot();
-        _spawnMissileTimer = 0;
-    }
+        private void MakeRandomEnemyShot()
+        {
+            var randomIndex = Random.Range(0, _childCount);
+            if (transform.GetChild(randomIndex).TryGetComponent<Enemy>(out var enemy))
+            {
+                enemy.Shoot();
+            }
+            _spawnMissileTimer = 0;
+        }
 
-    public void SetLastRow(bool isLastRow)
-    {
-        _isLastRow = isLastRow;
+        public void SetLastRow(bool isLastRow)
+        {
+            _isLastRow = isLastRow;
+        }
     }
 }
