@@ -31,7 +31,7 @@ namespace _projectSpaceX.Scripts
 
         private void Start()
         {
-            for (int i = 0; i < StartPoolSize; i++)
+            for (var i = 0; i < StartPoolSize; i++)
             {
                 InitNewMissile(false);
             }
