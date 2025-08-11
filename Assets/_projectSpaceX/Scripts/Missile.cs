@@ -36,7 +36,7 @@ namespace _projectSpaceX.Scripts
     
         private void FixedUpdate()
         {
-            rigidBody.velocity = _moveDirection * _speed;
+            rigidBody.linearVelocity = _moveDirection * _speed;
             if (transform.position.y > _maxPositionX || transform.position.y < 0)
             {
                 if (_isEnemyMissile)
